@@ -1,25 +1,33 @@
-const RESET = 'home/RESET';
-const INCREMENT = 'home/INCREMENT';
-const DECREMENT = 'home/DECREMENT';
+// @flow
+import type { ThunkAction } from '../../Helpers/types';
 
-const initialState = {
+type State = {
+  +count: number
+};
+
+const initialState: State = {
   count: 0
 };
 
-export default (state = initialState, action) => {
+type Action =
+  | { type: 'home/reset' }
+  | { type: 'home/increment' }
+  | { type: 'home/decrement' };
+
+export default (state: State = initialState, action: Action) => {
   switch (action.type) {
-    case RESET:
+    case 'home/reset':
       return {
         ...initialState
       };
 
-    case INCREMENT:
+    case 'home/increment':
       return {
         ...state,
         count: state.count + 1
       };
 
-    case DECREMENT:
+    case 'home/decrement':
       return {
         ...state,
         count: state.count - 1
@@ -30,10 +38,10 @@ export default (state = initialState, action) => {
   }
 };
 
-export const on_route_match = () => {
+export const on_route_match = (): ThunkAction => {
   return (dispatch, getState) => {
     dispatch({
-      type: RESET
+      type: 'home/reset'
     });
 
     // react-snapshot does build time pre rendering via jsdom
@@ -41,18 +49,18 @@ export const on_route_match = () => {
   };
 };
 
-export const increment = () => {
+export const increment = (): ThunkAction => {
   return (dispatch, getState) => {
     dispatch({
-      type: INCREMENT
+      type: 'home/increment'
     });
   };
 };
 
-export const decrement = () => {
+export const decrement = (): ThunkAction => {
   return (dispatch, getState) => {
     dispatch({
-      type: DECREMENT
+      type: 'home/decrement'
     });
   };
 };

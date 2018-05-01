@@ -1,36 +1,45 @@
+// @flow
+import type { ThunkAction } from '../../Helpers/types';
 import BoilerplateService from '../../Services/Boilerplate';
 
-const RESET = 'boilerplate/RESET';
-const SET_ERROR = 'boilerplate/SET_ERROR';
-const SET_BUSY = 'boilerplate/SET_BUSY';
-const SET_GIF_URL = 'boilerplate/SET_GIF_URL';
+export type State = {
+  +error: string | null,
+  +busy: boolean,
+  +gif_url: string | null
+};
 
-const initialState = {
+const initialState: State = {
   error: null,
   busy: false,
   gif_url: null
 };
 
-export default (state = initialState, action) => {
+type Action =
+  | { type: 'boilerplate/reset' }
+  | { type: 'boilerplate/set_error', payload: string | null }
+  | { type: 'boilerplate/set_busy', payload: boolean }
+  | { type: 'boilerplate/set_gif_url', payload: string | null };
+
+export default (state: State = initialState, action: Action) => {
   switch (action.type) {
-    case RESET:
+    case 'boilerplate/reset':
       return {
         ...initialState
       };
 
-    case SET_ERROR:
+    case 'boilerplate/set_error':
       return {
         ...state,
         error: action.payload
       };
 
-    case SET_BUSY:
+    case 'boilerplate/set_busy':
       return {
         ...state,
         busy: action.payload
       };
 
-    case SET_GIF_URL:
+    case 'boilerplate/set_gif_url':
       return {
         ...state,
         gif_url: action.payload
@@ -41,10 +50,10 @@ export default (state = initialState, action) => {
   }
 };
 
-export const on_route_match = () => {
+export const on_route_match = (): ThunkAction => {
   return (dispatch, getState) => {
     dispatch({
-      type: RESET
+      type: 'boilerplate/reset'
     });
 
     dispatch(load_new_gif_url());
@@ -54,20 +63,20 @@ export const on_route_match = () => {
   };
 };
 
-export const load_new_gif_url = () => {
+export const load_new_gif_url = (): ThunkAction => {
   return async (dispatch, getState) => {
     dispatch({
-      type: SET_BUSY,
+      type: 'boilerplate/set_busy',
       payload: true
     });
 
     dispatch({
-      type: SET_GIF_URL,
+      type: 'boilerplate/set_gif_url',
       payload: null
     });
 
     dispatch({
-      type: SET_ERROR,
+      type: 'boilerplate/set_error',
       payload: null
     });
 
@@ -75,12 +84,12 @@ export const load_new_gif_url = () => {
       const gif_url = await BoilerplateService.get_random_gif_url();
 
       dispatch({
-        type: SET_BUSY,
+        type: 'boilerplate/set_busy',
         payload: false
       });
 
       dispatch({
-        type: SET_GIF_URL,
+        type: 'boilerplate/set_gif_url',
         payload: gif_url
       });
     } catch (e) {
@@ -89,12 +98,12 @@ export const load_new_gif_url = () => {
       }`;
 
       dispatch({
-        type: SET_ERROR,
+        type: 'boilerplate/set_error',
         payload: error
       });
 
       dispatch({
-        type: SET_BUSY,
+        type: 'boilerplate/set_busy',
         payload: false
       });
     }

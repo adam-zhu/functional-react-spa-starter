@@ -1,9 +1,27 @@
-import React from 'react';
-import store from '../Store';
+// @flow
 
-export default ({ importComponent, mountCallback, el_loading }) =>
-  class AsyncComponent extends React.Component {
-    constructor(props) {
+import * as React from 'react';
+import store from '../Store';
+import type { ThunkAction } from '../Helpers/types';
+import { reset_window_scroll } from '../Helpers/utils';
+
+type State = {
+  component: ?React.StatelessFunctionalComponent<{}>
+};
+
+export default ({
+  importComponent,
+  mountCallback,
+  el_loading
+}: {
+  importComponent: () => Promise<{
+    default: React.StatelessFunctionalComponent<{}>
+  }>,
+  mountCallback: ?ThunkAction,
+  el_loading: ?React.StatelessFunctionalComponent<{}>
+}) =>
+  class AsyncComponent extends React.Component<{}, State> {
+    constructor(props: {}) {
       super(props);
 
       this.state = {
@@ -18,10 +36,7 @@ export default ({ importComponent, mountCallback, el_loading }) =>
         store.dispatch(mountCallback());
       }
 
-      // reset window scroll state
-      window.scrollTo(0, 0);
-      document.body.scrollTop = 0;
-      document.querySelector('html').scrollTop = 0;
+      reset_window_scroll();
 
       this.setState({
         component
@@ -34,7 +49,7 @@ export default ({ importComponent, mountCallback, el_loading }) =>
 
       return C ? (
         <C {...this.props} />
-      ) : el_loading ? (
+      ) : LoadingIndicator ? (
         <LoadingIndicator />
       ) : null;
     }

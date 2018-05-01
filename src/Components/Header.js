@@ -3,18 +3,23 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { HomePath, BoilerplatePath } from '../Routes';
 
-const mapStateToProps = (rootState, ownProps) => {
+type mappedState = {
+  current_path: string
+};
+const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
-    current_path: rootState.router.location.pathname
+    current_path: rootState.routing.location.pathname
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+type mappedHandlers = {};
+const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {};
 };
 
+type RenderProps = mappedState & mappedHandlers;
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ({ current_path }) => {
+  ({ current_path }: RenderProps) => {
     return (
       <header>
         <nav>

@@ -1,17 +1,27 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import './container.css';
+import type { LinkHandler, SubmitHandler } from '../../Helpers/types';
 import { increment, decrement } from './reducer';
 import { BoilerplatePath } from '../../Routes';
 
-const mapStateToProps = (rootState, ownProps) => {
+type mappedState = {
+  count: number
+};
+const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     count: rootState.Home.count
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+type mappedHandlers = {
+  navigate_to_boilerplate_handler: LinkHandler,
+  increment_handler: SubmitHandler,
+  decrement_handler: SubmitHandler
+};
+const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {
     navigate_to_boilerplate_handler: e => {
       e.preventDefault();
@@ -28,13 +38,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
+type RenderProps = mappedState & mappedHandlers;
 export default connect(mapStateToProps, mapDispatchToProps)(
   ({
     count,
     navigate_to_boilerplate_handler,
     increment_handler,
     decrement_handler
-  }) => {
+  }: RenderProps): React.Node => {
     return (
       <div className="page-body home">
         <h1>Home</h1>

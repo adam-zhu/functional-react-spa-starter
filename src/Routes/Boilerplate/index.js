@@ -1,3 +1,4 @@
+// @flow
 import AsyncWrapper from '../../Components/AsyncWrapper';
 import RouteLoading from '../../Components/RouteLoading';
 import { on_route_match } from './reducer';
