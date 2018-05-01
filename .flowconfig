@@ -5,7 +5,11 @@
 [libs]
 
 [lints]
+sketchy-null=error
+unclear-type=error
 
 [options]
+emoji=true
+include_warnings=true
 
 [strict]

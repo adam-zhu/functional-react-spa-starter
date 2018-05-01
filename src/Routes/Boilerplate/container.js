@@ -1,15 +1,15 @@
 // @flow
-import * as React from 'react';
-import { connect } from 'react-redux';
-import './container.css';
-import type { SubmitHandler } from '../../Helpers/types';
-import { load_new_gif_url } from './reducer';
+import * as React from "react";
+import { connect } from "react-redux";
+import "./container.css";
+import type { SubmitHandler } from "../../Helpers/types";
+import { load_new_gif_url } from "./reducer";
 
-type mappedState = {
+type mappedState = {|
   error: string | null,
   busy: boolean,
   gif_url: string | null
-};
+|};
 const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     error: rootState.Boilerplate.error,
@@ -18,9 +18,9 @@ const mapStateToProps = (rootState, ownProps): mappedState => {
   };
 };
 
-type mappedHandlers = {
+type mappedHandlers = {|
   load_new_gif_handler: SubmitHandler
-};
+|};
 const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {
     load_new_gif_handler: e => {
@@ -33,19 +33,16 @@ const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
 type RenderProps = mappedState & mappedHandlers;
 export default connect(mapStateToProps, mapDispatchToProps)(
   ({ error, busy, gif_url, load_new_gif_handler }: RenderProps): React.Node => {
-    const el_error = error ? <div className="gif error">{error}</div> : null;
-    const el_gif =
-      gif_url === null ? (
-        <div className="gif loading">Loading...</div>
-      ) : (
-        <div className="gif" style={{ backgroundImage: `url(${gif_url})` }} />
-      );
-
     return (
       <div className="page-body boilerplate">
         <h1>Boilerplate</h1>
-        {el_error}
-        {el_gif}
+        {error !== null ? (
+          <div className="gif error">{error}</div>
+        ) : gif_url === null ? (
+          <div className="gif loading">Loading...</div>
+        ) : (
+          <div className="gif" style={{ backgroundImage: `url(${gif_url})` }} />
+        )}
         <form onSubmit={load_new_gif_handler}>
           <button type="submit" disabled={busy}>
             Load New GIF

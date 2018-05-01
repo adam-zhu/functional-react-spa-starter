@@ -1,8 +1,6 @@
 // @flow
-
 import * as React from 'react';
 import store from '../Store';
-import type { ThunkAction } from '../Helpers/types';
 import { reset_window_scroll } from '../Helpers/utils';
 
 type State = {
@@ -17,7 +15,7 @@ export default ({
   importComponent: () => Promise<{
     default: React.StatelessFunctionalComponent<{}>
   }>,
-  mountCallback: ?ThunkAction,
+  mountCallback: ?() => {},
   el_loading: ?React.StatelessFunctionalComponent<{}>
 }) =>
   class AsyncComponent extends React.Component<{}, State> {

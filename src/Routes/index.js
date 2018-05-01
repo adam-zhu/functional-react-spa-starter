@@ -1,10 +1,10 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import Home from './Home';
-import Boilerplate from './Boilerplate';
+import React from "react";
+import { Route } from "react-router-dom";
+import Home from "./Home";
+import Boilerplate from "./Boilerplate";
 
-export const HomePath = '/';
-export const BoilerplatePath = '/boilerplate';
+export const HomePath: string = "/";
+export const BoilerplatePath: string = "/boilerplate";
 
 export default () => (
   <main>

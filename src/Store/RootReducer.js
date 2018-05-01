@@ -1,4 +1,3 @@
-// @flow
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import Home from '../Routes/Home/reducer';

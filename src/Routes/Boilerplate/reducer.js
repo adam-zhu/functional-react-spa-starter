@@ -1,12 +1,19 @@
 // @flow
-import type { ThunkAction } from '../../Helpers/types';
 import BoilerplateService from '../../Services/Boilerplate';
 
-export type State = {
+type Dispatch = (action: ThunkAction | Action) => void;
+type ThunkAction = (dispatch: Dispatch, getState: () => {}) => void | {};
+type Action =
+  | {| type: 'boilerplate/reset' |}
+  | {| type: 'boilerplate/set_error', payload: string | null |}
+  | {| type: 'boilerplate/set_busy', payload: boolean |}
+  | {| type: 'boilerplate/set_gif_url', payload: string | null |};
+
+export type State = {|
   +error: string | null,
   +busy: boolean,
   +gif_url: string | null
-};
+|};
 
 const initialState: State = {
   error: null,
@@ -14,13 +21,7 @@ const initialState: State = {
   gif_url: null
 };
 
-type Action =
-  | { type: 'boilerplate/reset' }
-  | { type: 'boilerplate/set_error', payload: string | null }
-  | { type: 'boilerplate/set_busy', payload: boolean }
-  | { type: 'boilerplate/set_gif_url', payload: string | null };
-
-export default (state: State = initialState, action: Action) => {
+export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case 'boilerplate/reset':
       return {
@@ -51,7 +52,7 @@ export default (state: State = initialState, action: Action) => {
 };
 
 export const on_route_match = (): ThunkAction => {
-  return (dispatch, getState) => {
+  return (dispatch: Dispatch, getState) => {
     dispatch({
       type: 'boilerplate/reset'
     });
@@ -64,7 +65,7 @@ export const on_route_match = (): ThunkAction => {
 };
 
 export const load_new_gif_url = (): ThunkAction => {
-  return async (dispatch, getState) => {
+  return async (dispatch: Dispatch, getState) => {
     dispatch({
       type: 'boilerplate/set_busy',
       payload: true

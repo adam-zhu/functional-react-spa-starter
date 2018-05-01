@@ -15,8 +15,7 @@
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css":
-      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build && react-snapshot",
@@ -25,7 +24,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.71.0",
     "node-sass-chokidar": "^1.2.2",
     "npm-run-all": "^4.1.2",

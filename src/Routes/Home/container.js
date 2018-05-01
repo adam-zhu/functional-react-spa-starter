@@ -1,26 +1,26 @@
 // @flow
-import * as React from 'react';
-import { push } from 'react-router-redux';
-import { connect } from 'react-redux';
-import './container.css';
-import type { LinkHandler, SubmitHandler } from '../../Helpers/types';
-import { increment, decrement } from './reducer';
-import { BoilerplatePath } from '../../Routes';
+import * as React from "react";
+import { push } from "react-router-redux";
+import { connect } from "react-redux";
+import "./container.css";
+import type { LinkHandler, SubmitHandler } from "../../Helpers/types";
+import { increment, decrement } from "./reducer";
+import { BoilerplatePath } from "../../Routes";
 
-type mappedState = {
+type mappedState = {|
   count: number
-};
+|};
 const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     count: rootState.Home.count
   };
 };
 
-type mappedHandlers = {
+type mappedHandlers = {|
   navigate_to_boilerplate_handler: LinkHandler,
   increment_handler: SubmitHandler,
   decrement_handler: SubmitHandler
-};
+|};
 const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {
     navigate_to_boilerplate_handler: e => {
