@@ -1,5 +1,4 @@
 // @flow
-
 type ThunkAction = (dispatch: Dispatch, getState: () => {}) => void | {};
 type Dispatch = (action: ThunkAction | Action) => void;
 
