@@ -3,29 +3,21 @@ import {
   type Dispatch,
   type GetState,
   type ThunkAction
-} from '../../Store/RootReducer';
-import { type Timestamp } from '../../Helpers/timestamp';
-import TeamsService from '../../Services/Teams';
+} from "../../Store/RootReducer";
+import { type Timestamp } from "../../Helpers/timestamp";
+import TeamsService from "../../Services/Teams";
 
 export type Team = {|
   email: string,
   team_id: string,
   last_login_date: Timestamp,
   simulations: number,
-  license: 'freemium' | 'trial' | 'professional',
-  early_access: 'yes' | 'no'
+  license: "freemium" | "trial" | "professional",
+  early_access: "yes" | "no"
 |};
 
-export type SortOption =
-  | null
-  | 'email'
-  | 'team_id'
-  | 'last_login_date'
-  | 'simulations'
-  | 'license'
-  | 'early_access';
-
-export type OrderOption = 'asc' | 'desc' | null;
+export type SortOption = $Enum<Team> | null;
+export type OrderOption = "asc" | "desc" | null;
 
 export type TeamsState = {|
   +error: string | null,
@@ -42,68 +34,68 @@ const initialState: TeamsState = {
   busy: false,
   teams: null,
   display_teams: null,
-  search_term: '',
+  search_term: "",
   sort: null,
   order: null
 };
 
 export type TeamsAction =
-  | {| type: 'teams/reset' |}
-  | {| type: 'teams/set_error', payload: string | null |}
-  | {| type: 'teams/set_busy', payload: boolean |}
-  | {| type: 'teams/set_teams_data', payload: Team[] | null |}
-  | {| type: 'teams/set_display_teams', payload: Team[] | null |}
-  | {| type: 'teams/set_search_term', payload: string |}
-  | {| type: 'teams/set_sort', payload: SortOption |}
-  | {| type: 'teams/set_order', payload: OrderOption |};
+  | {| type: "teams/reset" |}
+  | {| type: "teams/set_error", payload: string | null |}
+  | {| type: "teams/set_busy", payload: boolean |}
+  | {| type: "teams/set_teams_data", payload: Team[] | null |}
+  | {| type: "teams/set_display_teams", payload: Team[] | null |}
+  | {| type: "teams/set_search_term", payload: string |}
+  | {| type: "teams/set_sort", payload: SortOption |}
+  | {| type: "teams/set_order", payload: OrderOption |};
 
 export default (
   state: TeamsState = initialState,
   action: TeamsAction
 ): TeamsState => {
   switch (action.type) {
-    case 'teams/reset':
+    case "teams/reset":
       return {
         ...initialState
       };
 
-    case 'teams/set_error':
+    case "teams/set_error":
       return {
         ...state,
         error: action.payload
       };
 
-    case 'teams/set_busy':
+    case "teams/set_busy":
       return {
         ...state,
         busy: action.payload
       };
 
-    case 'teams/set_teams_data':
+    case "teams/set_teams_data":
       return {
         ...state,
         teams: action.payload
       };
 
-    case 'teams/set_display_teams':
+    case "teams/set_display_teams":
       return {
         ...state,
         display_teams: action.payload
       };
 
-    case 'teams/set_search_term':
+    case "teams/set_search_term":
       return {
         ...state,
         search_term: action.payload
       };
 
-    case 'teams/set_sort':
+    case "teams/set_sort":
       return {
         ...state,
         sort: action.payload
       };
 
-    case 'teams/set_order':
+    case "teams/set_order":
       return {
         ...state,
         order: action.payload
@@ -117,7 +109,7 @@ export default (
 export const on_route_match = (): ThunkAction => {
   return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: 'teams/reset'
+      type: "teams/reset"
     });
 
     dispatch(load_teams());
@@ -127,7 +119,7 @@ export const on_route_match = (): ThunkAction => {
 export const load_teams = (): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: 'teams/set_busy',
+      type: "teams/set_busy",
       payload: true
     });
 
@@ -135,31 +127,31 @@ export const load_teams = (): ThunkAction => {
       const teams = await TeamsService.get_teams_list();
 
       dispatch({
-        type: 'teams/set_busy',
+        type: "teams/set_busy",
         payload: false
       });
 
       dispatch({
-        type: 'teams/set_teams_data',
+        type: "teams/set_teams_data",
         payload: teams
       });
 
       dispatch({
-        type: 'teams/set_display_teams',
+        type: "teams/set_display_teams",
         payload: teams
       });
     } catch (e) {
-      const error = `${e.status ? e.status : '500'}: ${
+      const error = `${e.status ? e.status : "500"}: ${
         e.message ? e.message : e.toString()
       }`;
 
       dispatch({
-        type: 'teams/set_error',
+        type: "teams/set_error",
         payload: error
       });
 
       dispatch({
-        type: 'teams/set_busy',
+        type: "teams/set_busy",
         payload: false
       });
     }
@@ -172,7 +164,7 @@ export const update_search_term = (search_term: string): ThunkAction => {
     const { teams, sort, order } = currentState;
 
     dispatch({
-      type: 'teams/set_search_term',
+      type: "teams/set_search_term",
       payload: search_term
     });
 
@@ -184,7 +176,7 @@ export const update_search_term = (search_term: string): ThunkAction => {
     });
 
     dispatch({
-      type: 'teams/set_display_teams',
+      type: "teams/set_display_teams",
       payload: display_teams
     });
   };
@@ -206,17 +198,17 @@ export const update_sort = (sort: SortOption): ThunkAction => {
     });
 
     dispatch({
-      type: 'teams/set_sort',
+      type: "teams/set_sort",
       payload: sort
     });
 
     dispatch({
-      type: 'teams/set_order',
+      type: "teams/set_order",
       payload: order
     });
 
     dispatch({
-      type: 'teams/set_display_teams',
+      type: "teams/set_display_teams",
       payload: display_teams
     });
   };
@@ -234,17 +226,17 @@ const resolve_new_sort_order = ({
   console.log({ new_sort, current_sort, current_order });
   if (new_sort === current_sort) {
     if (current_order === null) {
-      return 'asc';
+      return "asc";
     }
 
-    if (current_order === 'asc') {
-      return 'desc';
+    if (current_order === "asc") {
+      return "desc";
     }
 
     return null;
   }
 
-  return 'asc';
+  return "asc";
 };
 
 const sort_teams = ({
@@ -271,23 +263,23 @@ const by = ({ sort, order }: { sort: SortOption, order: OrderOption }) => (
     return 0;
   }
 
-  if (sort === 'last_login_date') {
+  if (sort === "last_login_date") {
     const a_val = a[sort].unix;
     const b_val = b[sort].unix;
 
-    return order === 'asc' ? a_val - b_val : b_val - a_val;
+    return order === "asc" ? a_val - b_val : b_val - a_val;
   }
 
-  if (sort === 'simulations') {
-    return order === 'asc' ? a[sort] - b[sort] : b[sort] - a[sort];
+  if (sort === "simulations") {
+    return order === "asc" ? a[sort] - b[sort] : b[sort] - a[sort];
   }
 
   if (a[sort] > b[sort]) {
-    return order === 'asc' ? 1 : -1;
+    return order === "asc" ? 1 : -1;
   }
 
   if (a[sort] < b[sort]) {
-    return order === 'asc' ? -1 : 1;
+    return order === "asc" ? -1 : 1;
   }
 
   return 0;
