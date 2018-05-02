@@ -45,9 +45,6 @@ export const on_route_match = (): ThunkAction => {
     dispatch({
       type: "home/reset"
     });
-
-    // react-snapshot does build time pre rendering via jsdom
-    document.title = "Home";
   };
 };
 

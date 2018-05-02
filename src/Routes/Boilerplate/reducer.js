@@ -59,9 +59,6 @@ export const on_route_match = (): ThunkAction => {
     });
 
     dispatch(load_new_gif_url());
-
-    // react-snapshot does build time pre rendering via jsdom
-    document.title = "Boilerplate";
   };
 };
 

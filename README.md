@@ -2,19 +2,19 @@
 
 Boilerplate for a client side backend agnostic single page web app using `react` for rendering, `react-router` for routing, `redux` for state management, and `webpack` for bundling.
 
-`react` is a UI library that uses a lightweight DOM abstraction (virtual DOM) that sits between the code and the DOM the browser renders. `react` allows the developer to build the application all in javascript using JSX to represent HTML. Its core class is `Component` which contains methods for state, render, and other "lifecycle" methods. Application logic is defined in a scaffold of these `Component`s. This logic generates a set of virtual DOM nodes that are then diffed against the set of nodes that generated the DOM that the client's browser has currently rendered and then that minimal set of changes is patched to the DOM.
+React is a UI library that uses a lightweight DOM abstraction (virtual DOM) that sits between the code and the DOM the browser displays. React allows the developer to build the application all in javascript using JSX to represent vDOM which it transforms into real DOM for the user's browser to display. Its core class is `Component` which contains methods for state, render, and other "lifecycle" methods. Application logic is defined in a scaffold of these `Component`s. This logic generates a set of virtual DOM nodes that are then diffed against the set of nodes that generated the DOM that the client's browser has currently rendered and only when a diff is generated is the DOM touched. This makes updating state hardly affect performance since vDOM overhead is sufficiently low thanks to React's optimization. In combination with a state manager like Redux, this means that you can reason with state with agility and reliability and build a very performant app quickly and easily.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). Find its very thorough and informative readme there. The bulk of the information about the project including instructions related to building the bundle, updating the scripts, and implementing further customization is documented there.
 
 Details regarding the customizations on top of the default `create-react-app` behavior are described below.
 
-## scss
+## Flow
 
-`node-sass-chokidar` is used to compile scss to css. When the project is running in development mode or built, `node-sass-chokidar` watches for any modifications to `*.scss` files in the project and automatically compiles them to `.css`, outputting them next to the original `.scss` files. Ensure that the `.css` files are the ones included in js. Since `*.scss` are the stylesheet source files, `*.css` in in the `.gitignore` file.
+Flow is a static type checker for javascript. Static type checking is a *Good Idea™*.
 
-## redux
+## Redux
 
-`redux` is a state management library. It works by creating a global state object and exposing functions to connect component state to the central store. Redux features only one way to alter state, "dispatching an action to the store". The "store" is the global state object, comprised of one or more "reducers". A "reducer" is a function that takes in a chunk of state and an "action" and returns a new chunk of state. An "action" is an object containing a `type` and optionally, any other data needed to update state. This is typically passed on `action.payload`.
+Redux is a state management library. It works by creating a global state object and exposing functions to connect component state to the central store. Redux features only one way to alter state, "dispatching an action to the store". The "store" is the global state object, comprised of one or more "reducers". A "reducer" is a function that takes in a chunk of state and an "action" and returns a new chunk of state. An "action" is an object containing a `type` and optionally, any other data needed to update state. This is typically passed on `action.payload`.
 
 ## redux-thunk
 
@@ -24,13 +24,17 @@ Details regarding the customizations on top of the default `create-react-app` be
 
 `react-router-redux` is used to handle client side routing. It is the redux-integrated version of the popular `react-router` and provides a convenient interface to match URL paths to route components. `react-router-redux` binds the router state to redux by placing a `routerReducer` on the root reducer so that any redux connected component has scope to the current route and history. It also includes a `push` function that navigates to a path by dispatching a redux action.
 
+## Sass
+
+Sass is a superset of css with features likes mixins, variables, and nesting. `node-sass-chokidar` is used to compile scss to css. When the project is running in development mode or built, `node-sass-chokidar` watches for any modifications to `*.scss` files in the project and automatically compiles them to `.css`, outputting them next to the original `.scss` files. Ensure that the `.css` files are the ones included in js. If you're importing a `.scss` file elsewhere and would like it not to be compiled, name it` _{filename}.scss` and import it as `{filename}` in your source scss stylesheet. Since `*.scss` are the stylesheet source files, `*.css` in in the `.gitignore` file.
+
 ## route based code splitting with webpack based on dynamic imports
 
 We define an `AsyncWrapper` component that takes a function to import a component and only render that component when it has loaded. We pass that component a dynamic import statement for our route's container component. During build, webpack will look for any ES6 dynamic import statement and know to split the bundle. The result of this is a main bundle containing all of the code necessary to render any route and a seperate bundle for each route. Then when the user first loads the app only the code necessary to render their requested route is served and all others are subsequently loaded on demand. This component is also the _only_ component written in classical style with React.Component lifecycle methods. It exposes an interface to pass a placeholder render while the route's bundle is being loaded as well as a callback action to dispatch once the route finishes loading.
 
 ## server side rendering static site generator via react-snapshot
 
-`react-snapshot` is used to generate static content "snapshots" of each route at build time. It spins up a server and renders the app in a jsdom environment and saves the HTML/CSS generated by each route. This is then served whenever that route is hit and anything that doesn't need state is already pre-rendered. The HTML file includes a js bundle to render the rest of the app. This allows robots to index the static content in the app for search engines and helps load times. NOTE: because of the jsdom pre-render, having each route do things like setting the HTML page <title> is fine. Also, keep in mind that any prerendered routes must be part of the main bundle. This means that they cannot be wrapped in an AsyncWrapper.
+`react-snapshot` is used to generate static content "snapshots" of each route at build time. It spins up a server and renders the app in a jsdom environment and saves the HTML/CSS generated by each route. This is then served whenever that route is hit and anything that doesn't need state is already pre-rendered there in HTML. The file includes the js bundle to render the rest of the app, which loads while your app displays with its styles. This allows robots to index the static content in the app for search engines, helps load times, and is a build time freebie. NOTE: touch the DOM with care. This is a side effect and should not be done in the framework laid out by this app. Also, keep in mind that any prerendered routes must be part of the main bundle. This means that they cannot be wrapped in an AsyncWrapper, the only stateful component with life cycle methods appropriate for this sort of side effect behavior. This should not be a front end concern in the first place, but if it needed to be done it would be most appropriate to place it
 
 # Project structure
 
