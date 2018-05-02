@@ -7,6 +7,7 @@ import { HomePath, BoilerplatePath } from "../Routes";
 type mappedState = {|
   current_path: string
 |};
+
 const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     current_path: rootState.routing.location.pathname
@@ -14,6 +15,7 @@ const mapStateToProps = (rootState, ownProps): mappedState => {
 };
 
 type mappedHandlers = {||};
+
 const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return Object.freeze({});
 };
