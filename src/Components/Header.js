@@ -20,9 +20,8 @@ const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return Object.freeze({});
 };
 
-type RenderProps = mappedState & mappedHandlers;
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ({ current_path }: RenderProps): React.Node => {
+  ({ current_path }: mappedState & mappedHandlers): React.Node => {
     return (
       <header>
         <nav>
