@@ -1,9 +1,10 @@
 // @flow
-import * as React from "react";
-import { connect } from "react-redux";
-import "./container.css";
-import { type SubmitHandler } from "../../Helpers/types";
-import { load_new_gif_url } from "./reducer";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './container.css';
+import { type RootState, type Dispatch } from '../../Store/RootReducer';
+import { type SubmitHandler } from '../../Helpers/types';
+import { load_new_gif_url } from './reducer';
 
 type mappedState = {|
   error: string | null,
@@ -11,7 +12,7 @@ type mappedState = {|
   gif_url: string | null
 |};
 
-const mapStateToProps = (rootState, ownProps): mappedState => {
+const mapStateToProps = (rootState: RootState, ownProps): mappedState => {
   return {
     error: rootState.Boilerplate.error,
     busy: rootState.Boilerplate.busy,
@@ -23,7 +24,7 @@ type mappedHandlers = {|
   load_new_gif_handler: SubmitHandler
 |};
 
-const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps): mappedHandlers => {
   return {
     load_new_gif_handler: e => {
       e.preventDefault();

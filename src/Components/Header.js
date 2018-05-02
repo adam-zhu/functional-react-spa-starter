@@ -1,14 +1,15 @@
 // @flow
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { HomePath, BoilerplatePath } from "../Routes";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { type RootState } from '../Store/RootReducer';
+import { Link } from 'react-router-dom';
+import { HomePath, BoilerplatePath, TeamsPath } from '../Routes';
 
 type mappedState = {|
   current_path: string
 |};
 
-const mapStateToProps = (rootState, ownProps): mappedState => {
+const mapStateToProps = (rootState: RootState, ownProps): mappedState => {
   return {
     current_path: rootState.routing.location.pathname
   };
@@ -27,15 +28,21 @@ export default connect(mapStateToProps, mapDispatchToProps)(
         <nav>
           <Link
             to={HomePath}
-            className={current_path === HomePath ? "active" : ""}
+            className={current_path === HomePath ? 'active' : ''}
           >
             Home
           </Link>
           <Link
             to={BoilerplatePath}
-            className={current_path === BoilerplatePath ? "active" : ""}
+            className={current_path === BoilerplatePath ? 'active' : ''}
           >
             Boilerplate
+          </Link>
+          <Link
+            to={TeamsPath}
+            className={current_path === TeamsPath ? 'active' : ''}
+          >
+            Teams
           </Link>
         </nav>
       </header>

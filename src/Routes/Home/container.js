@@ -1,17 +1,18 @@
 // @flow
-import * as React from "react";
-import { connect } from "react-redux";
-import "./container.css";
-import { type SubmitHandler } from "../../Helpers/types";
-import { increment, decrement } from "./reducer";
-import { push } from "react-router-redux";
-import { BoilerplatePath } from "../../Routes";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './container.css';
+import { type RootState, type Dispatch } from '../../Store/RootReducer';
+import { type SubmitHandler } from '../../Helpers/types';
+import { increment, decrement } from './reducer';
+import { push } from 'react-router-redux';
+import { BoilerplatePath } from '../../Routes';
 
 type mappedState = {|
   count: number
 |};
 
-const mapStateToProps = (rootState, ownProps): mappedState => {
+const mapStateToProps = (rootState: RootState, ownProps): mappedState => {
   return {
     count: rootState.Home.count
   };
@@ -23,7 +24,7 @@ type mappedHandlers = {|
   decrement_handler: SubmitHandler
 |};
 
-const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps): mappedHandlers => {
   return {
     navigate_to_boilerplate_handler: e => {
       e.preventDefault();

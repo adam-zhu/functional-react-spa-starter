@@ -1,34 +1,40 @@
 // @flow
-type ThunkAction = (dispatch: Dispatch, getState: () => {}) => void | {};
-type Dispatch = (action: ThunkAction | Action) => void;
+import {
+  type Dispatch,
+  type GetState,
+  type ThunkAction
+} from '../../Store/RootReducer';
 
-type State = {|
+export type HomeState = {|
   +count: number
 |};
 
-const initialState: State = {
+const initialState: HomeState = {
   count: 0
 };
 
-type Action =
-  | {| type: "home/reset" |}
-  | {| type: "home/increment" |}
-  | {| type: "home/decrement" |};
+export type HomeAction =
+  | {| type: 'home/reset' |}
+  | {| type: 'home/increment' |}
+  | {| type: 'home/decrement' |};
 
-export default (state: State = initialState, action: Action): State => {
+export default (
+  state: HomeState = initialState,
+  action: HomeAction
+): HomeState => {
   switch (action.type) {
-    case "home/reset":
+    case 'home/reset':
       return {
         ...initialState
       };
 
-    case "home/increment":
+    case 'home/increment':
       return {
         ...state,
         count: state.count + 1
       };
 
-    case "home/decrement":
+    case 'home/decrement':
       return {
         ...state,
         count: state.count - 1
@@ -40,25 +46,25 @@ export default (state: State = initialState, action: Action): State => {
 };
 
 export const on_route_match = (): ThunkAction => {
-  return (dispatch: Dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: "home/reset"
+      type: 'home/reset'
     });
   };
 };
 
 export const increment = (): ThunkAction => {
-  return (dispatch: Dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: "home/increment"
+      type: 'home/increment'
     });
   };
 };
 
 export const decrement = (): ThunkAction => {
-  return (dispatch: Dispatch, getState) => {
+  return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: "home/decrement"
+      type: 'home/decrement'
     });
   };
 };
