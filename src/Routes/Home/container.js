@@ -1,15 +1,16 @@
 // @flow
 import * as React from "react";
-import { push } from "react-router-redux";
 import { connect } from "react-redux";
 import "./container.css";
 import { type SubmitHandler } from "../../Helpers/types";
 import { increment, decrement } from "./reducer";
+import { push } from "react-router-redux";
 import { BoilerplatePath } from "../../Routes";
 
 type mappedState = {|
   count: number
 |};
+
 const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     count: rootState.Home.count
@@ -21,6 +22,7 @@ type mappedHandlers = {|
   increment_handler: SubmitHandler,
   decrement_handler: SubmitHandler
 |};
+
 const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {
     navigate_to_boilerplate_handler: e => {

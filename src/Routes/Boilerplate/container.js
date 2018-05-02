@@ -10,6 +10,7 @@ type mappedState = {|
   busy: boolean,
   gif_url: string | null
 |};
+
 const mapStateToProps = (rootState, ownProps): mappedState => {
   return {
     error: rootState.Boilerplate.error,
@@ -21,6 +22,7 @@ const mapStateToProps = (rootState, ownProps): mappedState => {
 type mappedHandlers = {|
   load_new_gif_handler: SubmitHandler
 |};
+
 const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   return {
     load_new_gif_handler: e => {
