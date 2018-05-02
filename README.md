@@ -51,6 +51,9 @@ functional-react-spa-starter/
       AsyncWrapper.js
       Header.js
       RouteLoading.js
+    Helpers/
+      types.js
+      utils.js
     Routes/
       index.js
       Home/
