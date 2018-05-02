@@ -2,7 +2,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./container.css";
-import type { SubmitHandler } from "../../Helpers/types";
+import { type SubmitHandler } from "../../Helpers/types";
 import { load_new_gif_url } from "./reducer";
 
 type mappedState = {|
@@ -30,14 +30,18 @@ const mapDispatchToProps = (dispatch, ownProps): mappedHandlers => {
   };
 };
 
-type RenderProps = mappedState & mappedHandlers;
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ({ error, busy, gif_url, load_new_gif_handler }: RenderProps): React.Node => {
+  ({
+    error,
+    busy,
+    gif_url,
+    load_new_gif_handler
+  }: mappedState & mappedHandlers): React.Node => {
     return (
       <div className="page-body boilerplate">
         <h1>Boilerplate</h1>
         {error !== null ? (
-          <div className="gif error">{error}</div>
+          <div className="error">{error}</div>
         ) : gif_url === null ? (
           <div className="gif loading">Loading...</div>
         ) : (

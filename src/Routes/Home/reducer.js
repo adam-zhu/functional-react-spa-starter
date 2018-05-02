@@ -1,10 +1,7 @@
 // @flow
-type Dispatch = (action: ThunkAction | Action) => void;
+
 type ThunkAction = (dispatch: Dispatch, getState: () => {}) => void | {};
-type Action =
-  | {| type: "home/reset" |}
-  | {| type: "home/increment" |}
-  | {| type: "home/decrement" |};
+type Dispatch = (action: ThunkAction | Action) => void;
 
 type State = {|
   +count: number
@@ -13,6 +10,11 @@ type State = {|
 const initialState: State = {
   count: 0
 };
+
+type Action =
+  | {| type: "home/reset" |}
+  | {| type: "home/increment" |}
+  | {| type: "home/decrement" |};
 
 export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
