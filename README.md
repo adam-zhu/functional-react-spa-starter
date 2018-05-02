@@ -98,9 +98,9 @@ The general pattern of the app can be described as a loop. We call this the "mai
 |  |
 |  render returns vDOM bound w/ event listeners
 |  |
-|  (react vDOM diff/patch > react updates real DOM > browser paints to screen > user interacts with the elements on the screen and fires event listener)
+|  (react vDOM diff/patch > user interacts with screen and fires event listener)
 |  |
-|  listener executes the proper business logic and dispatches an action to a reducer
+|  listener executes logic and dispatches an action to a reducer
 |  |
 |  (redux generates new state)
 |__|
