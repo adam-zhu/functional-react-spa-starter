@@ -91,14 +91,14 @@ To create a new route, simply copy another route's folder and delete old code. B
 
 # Architecture
 
-The general pattern of the app can be described as a loop. We call this the "main loop". It is:
+The general pattern of each route can be described as a loop:
 
 ```
- __ transform state into render props
+ __ gather state and transform into render props
 |  |
 |  render returns vDOM bound w/ event listeners
 |  |
-|  (react vDOM diff/patch > user interacts with screen and fires event listener)
+|  (react vDOM diff/patch > user interacts with screen and fires listener)
 |  |
 |  listener executes logic and dispatches an action to a reducer
 |  |
@@ -106,7 +106,7 @@ The general pattern of the app can be described as a loop. We call this the "mai
 |__|
 ```
 
-This is a _Good Idea™_ because it allows for the decoupling of state changing business logic from render logic and makes all pieces of UI 100% pure render functions. Combined with good naming this creates a very easy to reason with framework that is performant and has great coverage thanks to the folks at Facebook and the amazing community that supports the React ecosystem.
+This is a _Good Idea™_ because it allows for the decoupling of state changing business logic from render logic and makes all pieces of UI 100% pure render functions.
 
 # Opinions
 
