@@ -1,16 +1,16 @@
 // @flow
-import * as React from 'react';
-import { connect } from 'react-redux';
-import './container.css';
-import { type RootState, type Dispatch } from '../../Store/RootReducer';
-import { type SubmitHandler, type ChangeHandler } from '../../Helpers/types';
+import * as React from "react";
+import { connect } from "react-redux";
+import "./container.css";
+import { type RootState, type Dispatch } from "../../Store/RootReducer";
+import { type SubmitHandler, type ChangeHandler } from "../../Helpers/types";
 import {
   type Team,
   type SortOption,
   type OrderOption,
   update_search_term,
   update_sort
-} from './reducer';
+} from "./reducer";
 
 type mappedState = {|
   error: string | null,
@@ -142,44 +142,44 @@ const TeamsTable = ({
       <thead>
         <tr>
           <th className="email">
-            <form onSubmit={sort_update_handler('email')}>
+            <form onSubmit={sort_update_handler("email")}>
               <button type="submit">Email</button>
             </form>
-            {resolve_sort_icon({ column_name: 'email', sort, order })}
+            {resolve_sort_icon({ column_name: "email", sort, order })}
           </th>
           <th className="team_id">
-            <form onSubmit={sort_update_handler('team_id')}>
+            <form onSubmit={sort_update_handler("team_id")}>
               <button type="submit">ID</button>
             </form>
-            {resolve_sort_icon({ column_name: 'team_id', sort, order })}
+            {resolve_sort_icon({ column_name: "team_id", sort, order })}
           </th>
           <th className="last_login_date">
-            <form onSubmit={sort_update_handler('last_login_date')}>
+            <form onSubmit={sort_update_handler("last_login_date")}>
               <button type="submit">Last Log In</button>
             </form>
             {resolve_sort_icon({
-              column_name: 'last_login_date',
+              column_name: "last_login_date",
               sort,
               order
             })}
           </th>
           <th className="simulations">
-            <form onSubmit={sort_update_handler('simulations')}>
+            <form onSubmit={sort_update_handler("simulations")}>
               <button type="submit">Simulations</button>
             </form>
-            {resolve_sort_icon({ column_name: 'simulations', sort, order })}
+            {resolve_sort_icon({ column_name: "simulations", sort, order })}
           </th>
           <th className="license">
-            <form onSubmit={sort_update_handler('license')}>
+            <form onSubmit={sort_update_handler("license")}>
               <button type="submit">License</button>
             </form>
-            {resolve_sort_icon({ column_name: 'license', sort, order })}
+            {resolve_sort_icon({ column_name: "license", sort, order })}
           </th>
           <th className="early_access">
-            <form onSubmit={sort_update_handler('early_access')}>
+            <form onSubmit={sort_update_handler("early_access")}>
               <button type="submit">Early Access</button>
             </form>
-            {resolve_sort_icon({ column_name: 'early_access', sort, order })}
+            {resolve_sort_icon({ column_name: "early_access", sort, order })}
           </th>
         </tr>
       </thead>
@@ -215,11 +215,11 @@ const resolve_sort_icon = ({
     return null;
   }
 
-  if (order === 'asc') {
+  if (order === "asc") {
     return <i className="material-icons">arrow_upward</i>;
   }
 
-  if (order === 'desc') {
+  if (order === "desc") {
     return <i className="material-icons">arrow_downward</i>;
   }
 

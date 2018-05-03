@@ -3,6 +3,10 @@
 [include]
 
 [libs]
+react-redux
+react-router-dom
+react-scripts
+redux-actions
 
 [lints]
 sketchy-null=error
