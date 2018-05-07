@@ -4,6 +4,9 @@ import store from "../Store";
 import { reset_window_scroll } from "../Helpers/utils";
 import { memorize_viewport_state } from "../Store/ViewportReducer";
 
+const memorize_window_dimensions = () =>
+  store.dispatch(memorize_viewport_state());
+
 type State = {
   component: ?React.StatelessFunctionalComponent<{}>
 };
@@ -36,10 +39,8 @@ export default ({
       }
 
       // record window dimensions
-      store.dispatch(memorize_viewport_state());
-      window.addEventListener("resize", () =>
-        store.dispatch(memorize_viewport_state())
-      );
+      memorize_window_dimensions();
+      window.addEventListener("resize", memorize_window_dimensions);
 
       reset_window_scroll();
 
@@ -60,6 +61,6 @@ export default ({
     }
 
     componentWillUnmount() {
-      window.removeEventListener("resize");
+      window.removeEventListener("resize", memorize_window_dimensions);
     }
   };
