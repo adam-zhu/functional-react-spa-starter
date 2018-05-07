@@ -223,7 +223,6 @@ const resolve_new_sort_order = ({
   current_sort: SortOption,
   current_order: OrderOption
 }): OrderOption => {
-  console.log({ new_sort, current_sort, current_order });
   if (new_sort === current_sort) {
     if (current_order === null) {
       return "asc";

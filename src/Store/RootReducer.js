@@ -1,24 +1,34 @@
 // @flow
-import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import Home, { type HomeState, type HomeAction } from '../Routes/Home/reducer';
+import { combineReducers } from "redux";
+import { routerReducer } from "react-router-redux";
+import Viewport, {
+  type ViewportState,
+  type ViewportAction
+} from "./ViewportReducer";
+import Home, { type HomeState, type HomeAction } from "../Routes/Home/reducer";
 import Boilerplate, {
   type BoilerplateState,
   type BoilerplateAction
-} from '../Routes/Boilerplate/reducer';
+} from "../Routes/Boilerplate/reducer";
 import Teams, {
   type TeamsState,
   type TeamsAction
-} from '../Routes/Teams/reducer';
+} from "../Routes/Teams/reducer";
 
 type RoutesState = {
+  Viewport: ViewportState,
   Home: HomeState,
   Boilerplate: BoilerplateState,
   Teams: TeamsState
 };
-export type Action = HomeAction | BoilerplateAction | TeamsAction;
+export type Action =
+  | ViewportAction
+  | HomeAction
+  | BoilerplateAction
+  | TeamsAction;
 export default combineReducers({
   routing: routerReducer,
+  Viewport,
   Home,
   Boilerplate,
   Teams

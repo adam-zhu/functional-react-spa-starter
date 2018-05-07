@@ -1,7 +1,8 @@
 // @flow
-import * as React from 'react';
-import store from '../Store';
-import { reset_window_scroll } from '../Helpers/utils';
+import * as React from "react";
+import store from "../Store";
+import { reset_window_scroll } from "../Helpers/utils";
+import { memorize_viewport_state } from "../Store/ViewportReducer";
 
 type State = {
   component: ?React.StatelessFunctionalComponent<{}>
@@ -30,9 +31,15 @@ export default ({
     async componentDidMount() {
       const { default: component } = await importComponent();
 
-      if (typeof mountCallback === 'function') {
+      if (typeof mountCallback === "function") {
         store.dispatch(mountCallback());
       }
+
+      // record window dimensions
+      store.dispatch(memorize_viewport_state());
+      window.addEventListener("resize", () =>
+        store.dispatch(memorize_viewport_state())
+      );
 
       reset_window_scroll();
 
@@ -50,5 +57,9 @@ export default ({
       ) : LoadingIndicator ? (
         <LoadingIndicator />
       ) : null;
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener("resize");
     }
   };
