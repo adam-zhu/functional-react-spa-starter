@@ -22,7 +22,7 @@ Redux is a state management library. It works by creating a global state object 
 
 ## react-router-redux
 
-`react-router-redux` is used to handle client side routing. It is the redux-integrated version of the popular `react-router` and provides a convenient interface to match URL paths to route Fragments. `react-router-redux` binds the router state to redux by placing a `routerReducer` on the root reducer so that any redux connected component has scope to the current route and history. It also includes a `push` function that navigates to a path by dispatching a redux action.
+`react-router-redux` is used to handle client side routing. It is the redux-integrated version of the popular `react-router` and provides a convenient interface to match URL paths to route components. `react-router-redux` binds the router state to redux by placing a `routerReducer` on the root reducer so that any redux connected component has scope to the current route and history. It also includes a `push` function that navigates to a path by dispatching a redux action.
 
 ## Sass
 
@@ -43,7 +43,7 @@ functional-react-spa-starter/
     index.html
     favicon.ico
   src/
-    Fragments/
+    Components/
       Header.js
       RouteLoading.js
     Helpers/
@@ -85,11 +85,11 @@ functional-react-spa-starter/
 
 Each route's folder contains
 
-* `index.js`: pure boilerplate. This file should never need to get touched. It includes the dynamic import for the route's container and includes the route reducer's `on_route_match` function which gets dispatched when the route mounts. `src/Fragments/RouteLoading` is also included here and passed to `AsyncWrapper` to display while the route's bundle loads.
+* `index.js`: pure boilerplate. This file should never need to get touched. It includes the dynamic import for the route's container and includes the route reducer's `on_route_match` function which gets dispatched when the route mounts. `src/Components/RouteLoading` is also included here and passed to `AsyncWrapper` to display while the route's bundle loads.
 * `container.js`: entry point for render. This file contains the route's mapStateToProps and mapDispatchToProps functions and its render function.
 * `reducer.js`: this route's reducer and actions, including the boilerplated `on_route_match`
 * `container.scss`: styles for this route
 
 To create a new route, simply copy another route's folder and delete old code. Boilerplated file and function names do not need to change. The `src/Routes/index.js` file contains the export of all the routes, so be sure to update it with your new route. Similary `src/store/RootReducer.js` contains the export of all the reducers and root types. You will need to update it with your new route's reducer and types.
 
-`src/App.js` contains the router context and imports all the routes, so any common Fragments, like `src/Fragments/Header`, should be placed here.
+`src/App.js` contains the router context and imports all the routes, so any common components, like `src/Components/Header`, should be placed here.
