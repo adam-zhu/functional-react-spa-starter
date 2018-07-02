@@ -1,3 +1,6 @@
-import React from 'react';
+// @flow
+import * as React from "react";
 
-export default () => <div className="loading-indicator-route">Loading...</div>;
+export default (): React.Node => (
+  <div className="loading-indicator-route">Loading...</div>
+);

@@ -1,25 +1,40 @@
-const RESET = 'home/RESET';
-const INCREMENT = 'home/INCREMENT';
-const DECREMENT = 'home/DECREMENT';
+// @flow
+import {
+  type Dispatch,
+  type GetState,
+  type ThunkAction
+} from '../../Store/RootReducer';
 
-const initialState = {
+export type HomeState = {|
+  +count: number
+|};
+
+const initialState: HomeState = {
   count: 0
 };
 
-export default (state = initialState, action) => {
+export type HomeAction =
+  | {| type: 'home/reset' |}
+  | {| type: 'home/increment' |}
+  | {| type: 'home/decrement' |};
+
+export default (
+  state: HomeState = initialState,
+  action: HomeAction
+): HomeState => {
   switch (action.type) {
-    case RESET:
+    case 'home/reset':
       return {
         ...initialState
       };
 
-    case INCREMENT:
+    case 'home/increment':
       return {
         ...state,
         count: state.count + 1
       };
 
-    case DECREMENT:
+    case 'home/decrement':
       return {
         ...state,
         count: state.count - 1
@@ -30,29 +45,26 @@ export default (state = initialState, action) => {
   }
 };
 
-export const on_route_match = () => {
-  return (dispatch, getState) => {
+export const on_route_match = (): ThunkAction => {
+  return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: RESET
-    });
-
-    // react-snapshot does build time pre rendering via jsdom
-    document.title = 'Home';
-  };
-};
-
-export const increment = () => {
-  return (dispatch, getState) => {
-    dispatch({
-      type: INCREMENT
+      type: 'home/reset'
     });
   };
 };
 
-export const decrement = () => {
-  return (dispatch, getState) => {
+export const increment = (): ThunkAction => {
+  return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: DECREMENT
+      type: 'home/increment'
+    });
+  };
+};
+
+export const decrement = (): ThunkAction => {
+  return (dispatch: Dispatch, getState: GetState) => {
+    dispatch({
+      type: 'home/decrement'
     });
   };
 };

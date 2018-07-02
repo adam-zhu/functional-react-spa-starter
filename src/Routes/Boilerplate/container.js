@@ -1,9 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import './container.css';
-import { load_new_gif_url } from './reducer';
+// @flow
+import * as React from "react";
+import { connect } from "react-redux";
+import "./container.css";
+import { type RootState, type Dispatch } from "../../Store/RootReducer";
+import { type SubmitHandler } from "../../Helpers/types";
+import { load_new_gif_url } from "./reducer";
 
-const mapStateToProps = (rootState, ownProps) => {
+type mappedState = {|
+  error: string | null,
+  busy: boolean,
+  gif_url: string | null
+|};
+const mapState = (rootState: RootState, ownProps): mappedState => {
   return {
     error: rootState.Boilerplate.error,
     busy: rootState.Boilerplate.busy,
@@ -11,7 +19,10 @@ const mapStateToProps = (rootState, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+type mappedHandlers = {|
+  load_new_gif_handler: SubmitHandler
+|};
+const mapHandlers = (dispatch: Dispatch, ownProps): mappedHandlers => {
   return {
     load_new_gif_handler: e => {
       e.preventDefault();
@@ -20,24 +31,32 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ({ error, busy, gif_url, load_new_gif_handler }) => {
-    return (
-      <div className="page-body boilerplate">
-        <h1>Boilerplate</h1>
-        {error ? (
-          <div className="gif error">{error}</div>
-        ) : gif_url === null ? (
-          <div className="gif loading">Loading...</div>
-        ) : (
-          <div className="gif" style={{ backgroundImage: `url(${gif_url})` }} />
-        )}
-        <form onSubmit={load_new_gif_handler}>
-          <button type="submit" disabled={busy}>
-            Load New GIF
-          </button>
-        </form>
-      </div>
-    );
-  }
-);
+const Boilerplate = ({
+  error,
+  busy,
+  gif_url,
+  load_new_gif_handler
+}: mappedState & mappedHandlers): React.Node => {
+  return (
+    <div className="page-body boilerplate">
+      <h1>Boilerplate</h1>
+      {error !== null ? (
+        <div className="error">{error}</div>
+      ) : gif_url === null ? (
+        <div className="gif loading">Loading...</div>
+      ) : (
+        <div className="gif" style={{ backgroundImage: `url(${gif_url})` }} />
+      )}
+      <form onSubmit={load_new_gif_handler}>
+        <button type="submit" disabled={busy}>
+          Load New GIF
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default connect(
+  mapState,
+  mapHandlers
+)(Boilerplate);
