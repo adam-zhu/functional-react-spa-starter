@@ -1,6 +1,6 @@
 # functional-react-spa-starter
 
-Boilerplate for a client side backend agnostic single page web app using `react` for rendering, `react-router` for routing, `redux` for state management, and `webpack` for bundling.
+Boilerplate for a cleint side SPA using `react` for rendering, `react-router` for routing, `redux` for state management, and `webpack` for bundling.
 
 React is a UI library that uses a lightweight DOM abstraction (virtual DOM) that sits between the code and the DOM the browser displays. React allows the developer to build the application all in javascript using JSX to represent vDOM which it transforms into real DOM for the user's browser to display. Its core class is `Component` which contains methods for state, render, and other "lifecycle" methods. Application logic is defined in a scaffold of these `Component`s. This logic generates a set of virtual DOM nodes that are then diffed against the set of nodes that generated the DOM that the client's browser has currently rendered and only when a diff is generated is the DOM touched. This makes updating state hardly affect performance since vDOM overhead is sufficiently low thanks to React's optimization. In combination with a state manager like Redux, this means that you can reason with state with agility and reliability and build a very performant app quickly and easily.
 
