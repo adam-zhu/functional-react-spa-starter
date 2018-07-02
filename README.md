@@ -62,16 +62,16 @@ functional-react-spa-starter/
         container.js
         reducer.js
         container.scss
-      Teams/
+      Userss/
         index.js
         container.js
         reducer.js
         container.scss
     Services/
       formatters/
-        Teams.js
+        Users.js
       Boilerplate.js
-      Teams.js
+      Users.js
       mocks.js
     Store/
       index.js
