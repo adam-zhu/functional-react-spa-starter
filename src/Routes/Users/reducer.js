@@ -5,97 +5,97 @@ import {
   type ThunkAction
 } from "../../Store/RootReducer";
 import { type Timestamp } from "../../Helpers/timestamp";
-import TeamsService from "../../Services/Teams";
+import UsersService from "../../Services/Users";
 
-export type Team = {|
+export type User = {|
   email: string,
-  team_id: string,
+  user_id: string,
   last_login_date: Timestamp,
-  simulations: number,
+  credits: number,
   license: "freemium" | "trial" | "professional",
   early_access: "yes" | "no"
 |};
 
-export type SortOption = $Enum<Team> | null;
+export type SortOption = $Enum<User> | null;
 export type OrderOption = "asc" | "desc" | null;
 
-export type TeamsState = {|
+export type UsersState = {|
   +error: string | null,
   +busy: boolean,
-  +teams: Team[] | null,
-  +display_teams: Team[] | null,
+  +users: User[] | null,
+  +display_users: User[] | null,
   +search_term: string,
   +sort: SortOption,
   +order: OrderOption
 |};
 
-const initialState: TeamsState = {
+const initialState: UsersState = {
   error: null,
   busy: false,
-  teams: null,
-  display_teams: null,
+  users: null,
+  display_users: null,
   search_term: "",
   sort: null,
   order: null
 };
 
-export type TeamsAction =
-  | {| type: "teams/reset" |}
-  | {| type: "teams/set_error", payload: string | null |}
-  | {| type: "teams/set_busy", payload: boolean |}
-  | {| type: "teams/set_teams_data", payload: Team[] | null |}
-  | {| type: "teams/set_display_teams", payload: Team[] | null |}
-  | {| type: "teams/set_search_term", payload: string |}
-  | {| type: "teams/set_sort", payload: SortOption |}
-  | {| type: "teams/set_order", payload: OrderOption |};
+export type UsersAction =
+  | {| type: "users/reset" |}
+  | {| type: "users/set_error", payload: string | null |}
+  | {| type: "users/set_busy", payload: boolean |}
+  | {| type: "users/set_users", payload: User[] | null |}
+  | {| type: "users/set_display_users", payload: User[] | null |}
+  | {| type: "users/set_search_term", payload: string |}
+  | {| type: "users/set_sort", payload: SortOption |}
+  | {| type: "users/set_order", payload: OrderOption |};
 
 export default (
-  state: TeamsState = initialState,
-  action: TeamsAction
-): TeamsState => {
+  state: UsersState = initialState,
+  action: UsersAction
+): UsersState => {
   switch (action.type) {
-    case "teams/reset":
+    case "users/reset":
       return {
         ...initialState
       };
 
-    case "teams/set_error":
+    case "users/set_error":
       return {
         ...state,
         error: action.payload
       };
 
-    case "teams/set_busy":
+    case "users/set_busy":
       return {
         ...state,
         busy: action.payload
       };
 
-    case "teams/set_teams_data":
+    case "users/set_users":
       return {
         ...state,
-        teams: action.payload
+        users: action.payload
       };
 
-    case "teams/set_display_teams":
+    case "users/set_display_users":
       return {
         ...state,
-        display_teams: action.payload
+        display_users: action.payload
       };
 
-    case "teams/set_search_term":
+    case "users/set_search_term":
       return {
         ...state,
         search_term: action.payload
       };
 
-    case "teams/set_sort":
+    case "users/set_sort":
       return {
         ...state,
         sort: action.payload
       };
 
-    case "teams/set_order":
+    case "users/set_order":
       return {
         ...state,
         order: action.payload
@@ -109,49 +109,47 @@ export default (
 export const on_route_match = (): ThunkAction => {
   return (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: "teams/reset"
+      type: "users/reset"
     });
 
-    dispatch(load_teams());
+    dispatch(load_users());
   };
 };
 
-export const load_teams = (): ThunkAction => {
+export const load_users = (): ThunkAction => {
   return async (dispatch: Dispatch, getState: GetState) => {
     dispatch({
-      type: "teams/set_busy",
+      type: "users/set_busy",
       payload: true
     });
 
     try {
-      const teams = await TeamsService.get_teams_list();
+      const users = await UsersService.get_users();
 
       dispatch({
-        type: "teams/set_busy",
+        type: "users/set_busy",
         payload: false
       });
 
       dispatch({
-        type: "teams/set_teams_data",
-        payload: teams
+        type: "users/set_users",
+        payload: users
       });
 
       dispatch({
-        type: "teams/set_display_teams",
-        payload: teams
+        type: "users/set_display_users",
+        payload: users
       });
     } catch (e) {
-      const error = `${e.status ? e.status : "500"}: ${
-        e.message ? e.message : e.toString()
-      }`;
+      const error = `${e.name}: ${e.message}`;
 
       dispatch({
-        type: "teams/set_error",
+        type: "users/set_error",
         payload: error
       });
 
       dispatch({
-        type: "teams/set_busy",
+        type: "users/set_busy",
         payload: false
       });
     }
@@ -160,56 +158,54 @@ export const load_teams = (): ThunkAction => {
 
 export const update_search_term = (search_term: string): ThunkAction => {
   return (dispatch: Dispatch, getState: GetState) => {
-    const currentState = getState().Teams;
-    const { teams, sort, order } = currentState;
+    const currentState = getState().Users;
+    const { users, sort, order } = currentState;
 
     dispatch({
-      type: "teams/set_search_term",
+      type: "users/set_search_term",
       payload: search_term
     });
 
-    const display_teams = search_and_sort_teams({
-      teams: teams || [],
-      search_term,
-      sort,
-      order
-    });
-
     dispatch({
-      type: "teams/set_display_teams",
-      payload: display_teams
+      type: "users/set_display_users",
+      payload: search_and_sort_users({
+        users,
+        search_term,
+        sort,
+        order
+      })
     });
   };
 };
 
 export const update_sort = (sort: SortOption): ThunkAction => {
   return (dispatch: Dispatch, getState: GetState) => {
-    const currentState = getState().Teams;
+    const current = getState().Users;
     const order = resolve_new_sort_order({
       new_sort: sort,
-      current_sort: currentState.sort,
-      current_order: currentState.order
+      current_sort: current.sort,
+      current_order: current.order
     });
-    const display_teams = search_and_sort_teams({
-      teams: currentState.teams || [],
-      search_term: currentState.search_term,
+    const display_users = search_and_sort_users({
+      users: current.users || [],
+      search_term: current.search_term,
       sort,
       order
     });
 
     dispatch({
-      type: "teams/set_sort",
+      type: "users/set_sort",
       payload: sort
     });
 
     dispatch({
-      type: "teams/set_order",
+      type: "users/set_order",
       payload: order
     });
 
     dispatch({
-      type: "teams/set_display_teams",
-      payload: display_teams
+      type: "users/set_display_users",
+      payload: display_users
     });
   };
 };
@@ -238,25 +234,25 @@ const resolve_new_sort_order = ({
   return "asc";
 };
 
-const sort_teams = ({
-  teams,
+const sort_users = ({
+  users,
   sort,
   order
 }: {
-  teams: Team[],
+  users: User[],
   sort: SortOption,
   order: OrderOption
-}): Team[] => {
+}): User[] => {
   if (order === null) {
-    return teams;
+    return users;
   }
 
-  return teams.slice().sort(by({ sort, order }));
+  return users.slice().sort(by({ sort, order }));
 };
 
 const by = ({ sort, order }: { sort: SortOption, order: OrderOption }) => (
-  a: Team,
-  b: Team
+  a: User,
+  b: User
 ): number => {
   if (sort === null) {
     return 0;
@@ -269,7 +265,7 @@ const by = ({ sort, order }: { sort: SortOption, order: OrderOption }) => (
     return order === "asc" ? a_val - b_val : b_val - a_val;
   }
 
-  if (sort === "simulations") {
+  if (sort === "credits") {
     return order === "asc" ? a[sort] - b[sort] : b[sort] - a[sort];
   }
 
@@ -284,17 +280,17 @@ const by = ({ sort, order }: { sort: SortOption, order: OrderOption }) => (
   return 0;
 };
 
-const search_teams = ({
-  teams,
+const search_users = ({
+  users,
   search_term
 }: {
-  teams: Team[],
+  users: User[],
   search_term: string
-}): Team[] => {
+}): User[] => {
   const sanitized_search_term = search_term.trim().toLowerCase();
 
   if (sanitized_search_term.length === 0) {
-    return teams;
+    return users;
   }
 
   const is_match = (s: string | number): boolean =>
@@ -303,26 +299,28 @@ const search_teams = ({
       .toLowerCase()
       .indexOf(sanitized_search_term) !== -1;
 
-  return teams.filter(
-    (team: Team): boolean =>
-      is_match(team.email) ||
-      is_match(team.team_id) ||
-      is_match(team.last_login_date.time_ago) ||
-      is_match(team.simulations) ||
-      is_match(team.license) ||
-      is_match(team.early_access)
+  return users.filter(
+    (u: User): boolean =>
+      is_match(u.email) ||
+      is_match(u.user_id) ||
+      is_match(u.last_login_date.time_ago) ||
+      is_match(u.credits) ||
+      is_match(u.license) ||
+      is_match(u.early_access)
   );
 };
 
-const search_and_sort_teams = ({
-  teams,
+const search_and_sort_users = ({
+  users,
   search_term,
   sort,
   order
 }: {
-  teams: Team[],
+  users: User[] | null,
   search_term: string,
   sort: SortOption,
   order: OrderOption
-}): Team[] =>
-  sort_teams({ teams: search_teams({ teams, search_term }), sort, order });
+}): User[] | null =>
+  users !== null
+    ? sort_users({ users: search_users({ users, search_term }), sort, order })
+    : null;

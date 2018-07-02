@@ -58,18 +58,22 @@ const time_ago = (date: Date): string => {
 
   if (minutes_ago >= 1) {
     return minutes_ago === 1
-      ? 'a minute ago'
+      ? "a minute ago"
       : minutes_ago < 5
-        ? 'a few minutes ago'
+        ? "a few minutes ago"
         : `${minutes_ago} minutes ago`;
   }
 
+  if (seconds_ago < 5) {
+    return "just now";
+  }
+
   if (seconds_ago < 15) {
-    return 'just now';
+    return "a few seconds ago";
   }
 
   if (seconds_ago < 30) {
-    return 'a few seconds ago';
+    return "less than 30 seconds ago";
   }
 
   return `${seconds_ago} seconds ago`;

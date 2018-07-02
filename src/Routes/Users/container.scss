@@ -1,0 +1,36 @@
+.page-body.users {
+  input {
+    font-size: .875rem;
+  }
+
+  th {
+    text-align: right;
+    padding: .5rem;
+
+    form, i {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    button {
+      font-size: .875rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &:first-of-type {
+      text-align: left;
+    }
+  }
+
+  td {
+    text-align: right;
+    padding: .5rem 1rem;
+
+    &:first-of-type {
+      text-align: left;
+    }
+  }
+}

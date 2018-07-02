@@ -1,48 +1,41 @@
 // @flow
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
-import Viewport, {
-  type ViewportState,
-  type ViewportAction
-} from "./ViewportReducer";
 import Home, { type HomeState, type HomeAction } from "../Routes/Home/reducer";
 import Boilerplate, {
   type BoilerplateState,
   type BoilerplateAction
 } from "../Routes/Boilerplate/reducer";
-import Teams, {
-  type TeamsState,
-  type TeamsAction
-} from "../Routes/Teams/reducer";
-
-type RoutesState = {
-  Viewport: ViewportState,
-  Home: HomeState,
-  Boilerplate: BoilerplateState,
-  Teams: TeamsState
-};
-export type Action =
-  | ViewportAction
-  | HomeAction
-  | BoilerplateAction
-  | TeamsAction;
-export default combineReducers({
-  routing: routerReducer,
-  Viewport,
-  Home,
-  Boilerplate,
-  Teams
-});
+import Users, {
+  type UsersState,
+  type UsersAction
+} from "../Routes/Users/reducer";
 
 type RoutingState = {
   location: {
-    pathname: string,
-    search: string,
-    hash: string,
-    key: string
+    pathname: string | null,
+    search: string | null,
+    hash: string | null,
+    key: string | null
   }
 };
-export type RootState = { routing: RoutingState } & RoutesState;
+
+export type RootState = {
+  routing: RoutingState,
+  Home: HomeState,
+  Boilerplate: BoilerplateState,
+  Users: UsersState
+};
+
+export type Action = HomeAction | BoilerplateAction | UsersAction;
+
+export default combineReducers({
+  routing: routerReducer,
+  Home,
+  Boilerplate,
+  Users
+});
+
 export type GetState = () => RootState;
 export type Dispatch = (
   action:
